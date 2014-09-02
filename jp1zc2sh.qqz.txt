@@ -1,0 +1,26 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch SmartWatch_Xin_Business
+# Your branch is up-to-date with 'origin/SmartWatch_Xin_Business'.
+#
+# Changes to be committed:
+#	new file:   INN372_Business/BusinessTier/Admin.cs
+#	new file:   INN372_Business/BusinessTier/BusinessTier.csproj
+#	new file:   INN372_Business/BusinessTier/CareTakerOperation.cs
+#	new file:   INN372_Business/BusinessTier/DoctorOperation.cs
+#	new file:   INN372_Business/BusinessTier/Properties/AssemblyInfo.cs
+#	new file:   INN372_Business/BusinessTier/obj/Debug/BusinessTier.csproj.FileListAbsolute.txt
+#
+# Untracked files:
+#	INN372_Business/Data/
+#	INN372_Business/DataAcess/
+#	INN372_Business/DataObject/
+#	INN372_Business/INN372.sln
+#	INN372_Business/INN372/
+#	INN372_Business/ProjectUnitTest/
+#	INN372_Business/TestResults/
+#	INN372_Business/web.config
+#	SmartWatch -Presentation/
+#
+
