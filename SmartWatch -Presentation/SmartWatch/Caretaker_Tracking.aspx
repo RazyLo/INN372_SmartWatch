@@ -45,6 +45,9 @@
             width: 363px;
             text-align: left;
         }
+        .auto-style27 {
+            height: 11px;
+        }
         </style>
 </head>
 <body>
@@ -84,23 +87,25 @@
                     <table class="auto-style9">
                         <tr>
                             <td class="auto-style26" style="border: medium groove #FFFFFF">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <iframe
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<iframe
 			                        width="600"
 		                            height="450"
 		                            frameborder="0" style="border-style: none; border-color: inherit; border-width: 0; "
 		                            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAv8wmCb1dytIE7T0k4T5igFZJWZaxm8YE
-			                        &q=QUT">
-		                        </iframe>
-                                <div style="height: 97px; width: 1009px">
-                                    fdgfgfgfg</div>
+			                        &q=QUT"></iframe>
+                         
+                                
+                                <br />
+                                <br />
+                                <br />
+                                <br />
                             </td>
                         </tr>
                     </table>
                     <table class="auto-style1">
                         <tr>
-                            <td>
-                                &nbsp;</td>
+                            <td class="auto-style27">
+                                </td>
                         </tr>
                     </table>
                 </td>

@@ -68,6 +68,7 @@
     <Content Include="image\banner_hospitals.jpg" />
     <Content Include="image\footerBackground.png" />
     <Content Include="javascript\admin.js" />
+    <Content Include="javascript\GeoFence.js" />
     <Content Include="javascript\login.js" />
     <Content Include="Login.aspx" />
     <Content Include="Web.config" />

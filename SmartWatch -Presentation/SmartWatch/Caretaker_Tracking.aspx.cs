@@ -9,10 +9,16 @@ namespace SmartWatch
 {
     public partial class Caretaker_Tracking : System.Web.UI.Page
     {
+
         protected void Page_Load ( object sender, EventArgs e )
         {
             string id = ( string )(Session["RoleID"]);
             this.lbl_careid.Text = id;
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
