@@ -13,7 +13,7 @@ namespace SmartWatch
         {
 
         }
-
+        /*
         protected void Button1_Click(object sender, EventArgs e)
         {
             Data.DataBase.usersDataTable users = new Data.DataBase.usersDataTable();
@@ -55,5 +55,6 @@ namespace SmartWatch
             }
 
         }
+         * */
     }
 }

@@ -92,6 +92,8 @@
 		                            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAv8wmCb1dytIE7T0k4T5igFZJWZaxm8YE
 			                        &q=QUT">
 		                        </iframe>
+                                <div style="height: 97px; width: 1009px">
+                                    fdgfgfgfg</div>
                             </td>
                         </tr>
                     </table>

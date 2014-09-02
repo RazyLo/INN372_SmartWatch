@@ -147,16 +147,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\INN372_Business\BusinessTier\BusinessTier.csproj">
-      <Project>{b7960252-b492-4179-9a4a-5aeae325b6dd}</Project>
-      <Name>BusinessTier</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\INN372_Business\Data\Data.csproj">
-      <Project>{bbdd6fa8-8c12-4e59-8c00-a006bbdf7313}</Project>
-      <Name>Data</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
