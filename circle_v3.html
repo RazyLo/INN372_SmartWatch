@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script>
+google.maps.event.addDomListener(window, 'load', initialize);
+
+var mapcenter;
+var maker;
+var map;
+var defaultLat;
+var defaultLngt;
+var newlati;
+var newlngt;
+var circleNo;
+
+var markers;
+var newCircles;
+
+var circleMarkers;
+
+function initialize()
+{
+	markers = new Array(0);
+	newCircles = new Array(0);
+	circleMarkers = new Array(0);
+	circleNo = 1;
+	defaultLat = -27.4679;
+	defaultLngt = 153.0278;
+	generateMap(defaultLat, defaultLngt);
+	
+	//Add listener
+google.maps.event.addListener(map, "rightclick", function (event) {
+    var latitude = event.latLng.lat();
+    var longitude = event.latLng.lng();
+    //console.log( latitude + ', ' + longitude );
+	//var p =new google.maps.LatLng(latitude,longitude);
+	
+    radius = new google.maps.Circle({map: map,
+        radius: 1000,
+        center: event.latLng,
+        fillColor:"#0000FF",
+        fillOpacity: 0.1,
+        strokeColor:"#0000FF",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        draggable: true,    // Dragable
+        editable: true      // Resizable
+    });
+
+    // Center of map
+    map.panTo(new google.maps.LatLng(latitude,longitude));
+}); //end addListener//Add listener
+google.maps.event.addListener(map, "rightclick", function (event) {
+    var latitude = event.latLng.lat();
+    var longitude = event.latLng.lng();
+    //console.log( latitude + ', ' + longitude );
+	//var p =new google.maps.LatLng(latitude,longitude);
+	
+    radius = new google.maps.Circle({map: map,
+        radius: 1000,
+        center: event.latLng,
+        fillColor:"#0000FF",
+        fillOpacity: 0.1,
+        strokeColor:"#0000FF",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        draggable: true,    // Dragable
+        editable: true      // Resizable
+    });
+
+    // Center of map
+    map.panTo(new google.maps.LatLng(latitude,longitude));
+}); //end addListener
+
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+function generateMap(lati, lngt)
+{
+	if(lati != undefined && lngt != undefined)
+	{
+				var currentlat = lati;
+				var currentlgnt = lngt;
+				mapcenter = new google.maps.LatLng(currentlat, currentlgnt);
+				var mapproperty = 
+				{
+					center:mapcenter,
+					zoom:13,
+					mapTypeId:google.maps.MapTypeId.ROADMAP
+				};
+				
+				map = new google.maps.Map(document.getElementById("googleMap"),mapproperty);
+				
+				var mycircle= new google.maps.Circle({
+							//center:mapcenter,
+							map:map,
+							radius:1000,
+							strokeColor:"#0000FF",
+							strokeOpacity:0.8,
+							strokeWeight:2,
+							fillColor:"#0000FF",
+							fillOpacity:0.4,
+							draggable:true,
+							editable:true
+				});		
+				
+				marker = new google.maps.Marker({
+							map:map,
+							position: mapcenter,
+							title:"Hello World!"
+				});
+				//markers[0] = marker;
+				mycircle.bindTo('center', marker, 'position');
+				circleNo++;
+				
+				/*
+				var circleAndMarker = {mar:marker, cir:mycircle};
+				circleMarkers.push(circleAndMarker);
+				*/
+				google.maps.event.addListener(map, 'rightclick', function (e){
+					//alert(circleNo);
+					if( circleNo < 4)
+					{
+						addMarkers(e.latLng);
+						//alert(circleMarkers[0].mar.position);
+					} 
+					else
+					{
+						alert("Max of 3 geo-fence! Delete others to add this! ");
+					}
+				});
+				
+				
+				
+	}
+}//end of generateMap
+
+function addMarkers(location)
+{
+	var geoLocation = location;
+	newMarker = new google.maps.Marker({
+		map:map,
+		position:geoLocation,
+		title:"New Circle"
+	});
+	//markers.push(newmarker);
+	//addMarkerListener(newmarker)
+	//drawCircles(newmarker);
+	
+	var newCircle = new google.maps.Circle({
+		//center:mapcenter,
+		map:map,
+		radius:1000,
+		strokeColor:"#0000FF",
+		strokeOpacity:0.8,
+		strokeWeight:2,
+		fillColor:"#0000FF",
+		fillOpacity:0.4,
+		draggable:true,
+		editable:true
+	});	
+	newCircle.bindTo('center', newMarker, 'position');
+	//newCircles.push(newCircle);
+	
+	circleMarkers.push(newparam);
+	//var newparam = {mar:newmarker, cir:newCircle};
+	circleNo++;
+	
+	addCircleListener(newCircle);
+}//end of drawCircle()
+
+/*
+function drawCircles(marker)
+{
+	var newCircle = new google.maps.Circle({
+		//center:mapcenter,
+		map:map,
+		radius:1000,
+		strokeColor:"#0000FF",
+		strokeOpacity:0.8,
+		strokeWeight:2,
+		fillColor:"#0000FF",
+		fillOpacity:0.4,
+		draggable:true,
+		editable:true
+	});	
+	newCircle.bindTo('center', marker, 'position');
+	newCircles.push(newCircle);
+	circleNo++;
+	//addCircleListener(newCircle);
+}
+*/
+/*
+function addMarkerListener(marker)
+{
+	google.maps.event.addListener(marker, 'dblclick', function (e){
+		marker.setMap(null);
+	});
+}
+*/
+/*function addCircleListener(circle)
+{
+	google.maps.event.addListener(circle, 'click', function (e){
+		//circle.setMap(null);
+		alert("hi");
+	});
+}*/
+
+
+</script>
+</head>
+
+<body>
+<div id="googleMap" style="width:500px;height:380px;"></div>
+lat:<input id="positionx" ></input>
+latn:<input id="positiony" ></input>
+<!--   <button id="submit" type="submit" style="height:50px; width:100px;" text="Submit" onclick="getposition()"></button> -->
+
+</body>
+</html>

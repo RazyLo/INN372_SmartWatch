@@ -1,0 +1,125 @@
+<head>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script>
+//Get patient's location from smart watch
+var patientLatitude = -27.576478;
+var patientLongitude = 153.069806;
+var patientLocation = new google.maps.LatLng(patientLatitude, patientLongitude);
+
+var staffLocation;
+var mapProp;
+var map;
+var geofence;
+
+function initialize()
+{
+	navigator.geolocation.getCurrentPosition(function (p) {
+		//Get staff current location
+		staffLocation = new google.maps.LatLng(p.coords.latitude, p.coords.longitude);
+		
+		mapProp = {
+		  center:staffLocation,
+		  zoom:14,
+		  mapTypeId:google.maps.MapTypeId.ROADMAP
+		};
+	  
+		map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+		
+		//Display staff's location marker
+		var marker = new google.maps.Marker({
+			position: staffLocation,
+			title:"<div style = 'height:60px;width:200px'><b>Your location:</b><br />Latitude: " + p.coords.latitude + "<br />Longitude: " + p.coords.longitude
+		});
+	
+		google.maps.event.addListener(marker, "click", function (e) {
+				var infoWindow = new google.maps.InfoWindow();
+				infoWindow.setContent(marker.title);
+				infoWindow.open(map, marker);
+				
+			});
+		marker.setMap(map);	
+		
+		//Add listener
+google.maps.event.addListener(map, "rightclick", function (event) {
+    var latitude = event.latLng.lat();
+    var longitude = event.latLng.lng();
+    //console.log( latitude + ', ' + longitude );
+	//var p =new google.maps.LatLng(latitude,longitude);
+	
+    radius = new google.maps.Circle({map: map,
+        radius: 1000,
+        center: event.latLng,
+        fillColor:"#000000",
+        fillOpacity: 0.1,
+        strokeColor:"#000000",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        draggable: true,    // Dragable
+        editable: true      // Resizable
+		//deleteFence:true
+    });
+    // Center of map
+    map.panTo(new google.maps.LatLng(latitude,longitude));
+}); //end addListener
+
+google.maps.event.addListener(map,"click",function(event)
+{
+	radius.setMap(null);
+});
+	});
+	
+	
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+function createFence(){
+	//alert('Hello world!');
+	//Get geo-fence radius from the user input
+	var enterRadius = parseInt(document.getElementById('radius').value);
+	
+	geofence = new google.maps.Circle({
+		center:staffLocation,
+		radius:enterRadius,
+		strokeColor:"#0000FF",
+		strokeOpacity:0.8,
+		strokeWeight:2,
+		fillColor:"#0000FF",
+		fillOpacity:0.4
+	});
+	
+	geofence.setMap(map);
+	
+}
+
+function deleteFence(){
+	geofence.setMap(null);
+}
+function showPatientLocation(){
+	//Display patient's location marker
+	var marker1=new google.maps.Marker({
+		position:patientLocation,
+		title:"<div style = 'height:60px;width:200px'><b>Patient's location:</b><br />Latitude: " + patientLatitude + "<br />Longitude: " + patientLongitude,
+		animation:google.maps.Animation.BOUNCE
+	});
+	
+	google.maps.event.addListener(marker1, "click", function (e) {
+            var infoWindow = new google.maps.InfoWindow();
+            infoWindow.setContent(marker1.title);
+            infoWindow.open(map, marker1);
+			
+        });
+	marker1.setMap(map);
+}
+</script>
+</head>
+
+<body>
+<div id="googleMap" style="width:500px;height:380px;"></div>
+<br/>
+Radius: <input type="text" id="radius"/>
+<button type="button" onclick="createFence()">Create geo-fence</button>
+<button type="button" onclick="deleteFence()">Delete fence</button>
+<button type="button" onclick="showPatientLocation()">Get Patient's location</button>
+</body>
+</html>
