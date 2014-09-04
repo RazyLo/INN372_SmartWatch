@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script>
+google.maps.event.addDomListener(window, 'load', initialize);
+
+var mapcenter;
+var map;
+var defaultLat;
+var defaultLngt;
+var circleNo;
+var markers;
+var circles;
+var newMarkers;
+var newCircles;
+var enterRadius;
+var mycircle;
+
+function initialize()
+{
+	markers = [];
+	newMarkers = [];
+	circles = [];
+	newCircles = [];
+	
+	circleNo = 1;
+	//defaultLat = -27.4679;
+	//defaultLngt = 153.0278;
+	
+	//get Current Position
+	navigator.geolocation.getCurrentPosition(function (p) {
+		defaultLat= p.coords.latitude; 
+		defaultLngt= p.coords.longitude;
+		generateMap(defaultLat, defaultLngt);
+	});
+}
+
+function generateMap(lati, lngt)
+{
+	if(lati != undefined && lngt != undefined)
+	{
+		mapcenter = new google.maps.LatLng(lati, lngt);
+		var mapproperty = 
+		{
+			center:mapcenter,
+			zoom:13,
+			mapTypeId:google.maps.MapTypeId.ROADMAP
+		};
+				
+		map = new google.maps.Map(document.getElementById("googleMap"),mapproperty);
+				
+		mycircle= new google.maps.Circle({
+			//center:mapcenter,
+			map:map,
+			radius:1000,
+			strokeColor:"#0000FF",
+			strokeOpacity:0.8,
+			strokeWeight:2,
+			fillColor:"#0000FF",
+			fillOpacity:0.4,
+			draggable:true,
+			editable:true
+		});		
+				
+		marker = new google.maps.Marker({
+			map:map,
+			position: mapcenter,
+			//title:"Hello World!",
+			title:"<div style = 'height:60px;width:200px'><b>Your location:</b><br />Latitude: " + lati + "<br />Longitude: " + lngt,
+		});
+		
+		google.maps.event.addListener(marker, "click", function (e) {
+				var infoWindow = new google.maps.InfoWindow();
+				infoWindow.setContent(marker.title);
+				infoWindow.open(map, marker);
+				
+			});
+		//markers[0] = marker;
+		mycircle.bindTo('center', marker, 'position');
+						
+		/*
+		var circleAndMarker = {mar:marker, cir:mycircle};
+		circleMarkers.push(circleAndMarker);
+		*/
+		google.maps.event.addListener(map, 'rightclick', function (e){
+			//alert(circleNo);
+			if( circleNo < 4)
+			{
+				addMarkers(e.latLng);
+				//alert(circleMarkers[0].mar.position);
+			} else{
+				alert("Max of 3 geo-fence! Delete others to add this! ");
+			}
+		});		
+	}				
+}//end of generateMap
+
+function addMarkers(location)
+{
+	var geoLocation = location;
+	
+	var newMarker = new google.maps.Marker({
+		map:map,
+		position:geoLocation,
+		title:"<div style = 'height:60px;width:200px'><b>Geofence " + circleNo + ":</b><br />" + geoLocation,
+	});
+	
+	newMarkers.push(newMarker);
+	//alert("length of new Markers is: " + newMarkers.length);
+	
+	//Get the radius from user input
+	if (document.getElementById('radius').value != ""){
+		enterRadius = parseInt(document.getElementById('radius').value);
+	}else{
+		enterRadius = 1000;
+	}
+
+	var newCircle = new google.maps.Circle({
+		//center:mapcenter,
+		map:map,
+		radius:enterRadius,
+		strokeColor:"#0000FF",
+		strokeOpacity:0.8,
+		strokeWeight:2,
+		fillColor:"#0000FF",
+		fillOpacity:0.4,
+		draggable:true,
+		editable:true
+	});
+	newCircles.push(newCircle);
+	//alert("length of new Circle is: " + newCircles.length);
+	
+	newCircle.bindTo('center', newMarker, 'position');	
+	circleNo++;	
+	
+	google.maps.event.addListener(newMarker, "click", function (e) {
+        var infoWindow = new google.maps.InfoWindow();
+        infoWindow.setContent(newMarker.title);
+        infoWindow.open(map, newMarker);			
+    });
+	
+	google.maps.event.addListener(newCircle, "rightclick", function (e) {
+		
+		newMarker.setMap(null);
+		newCircle.setMap(null);
+		circleNo--;
+		
+		var index = newMarkers.indexof(newMarker);
+		if (index > -1){
+			newMarkers.splice(index,1);			
+		}				
+	});	
+}
+
+function showPatientLocation(patientLatitude,patientLongitude){
+	//alert(patientLatitude + " " + patientLongitude);
+	var patientLocation = new google.maps.LatLng(patientLatitude, patientLongitude);
+	//Display patient's location marker
+	var marker1=new google.maps.Marker({
+		position:patientLocation,
+		title:"<div style = 'height:60px;width:200px'><b>Patient's location:</b><br />Latitude: " + patientLatitude + "<br />Longitude: " + patientLongitude,
+		animation:google.maps.Animation.BOUNCE
+	});
+	
+	google.maps.event.addListener(marker1, "click", function (e) {
+            var infoWindow = new google.maps.InfoWindow();
+            infoWindow.setContent(marker1.title);
+            infoWindow.open(map, marker1);
+			
+        });
+		
+	marker1.setMap(map);
+}
+
+function deleteFence(){
+	mycircle.setMap(null);
+	marker.setMap(null);
+	circleNo--;
+}
+
+</script>
+
+</script>
+</head>
+
+<body>
+<input onclick="clearMarkers();" type=button value="Hide Markers">
+
+<div id="googleMap" style="width:500px;height:380px;"></div>
+
+<br/><br/>
+Radius: <input type="text" id="radius"/>
+
+<button type="button" onclick="deleteFence()">Delete fence</button>
+<br/><br/>
+<p>Enter the latitude and longitude to test patient's location, <br/>later maybe we can get the values of latitude and longitude from database or smart watch.</p>
+<table border="1px">
+	<tr>
+		<td>patient 1</td>
+		<td><input type="text" id="lati1"/></td>
+		<td><input type="text" id="lngt1"/></td>
+		<td><button type="button" onclick="showPatientLocation(document.getElementById('lati1').value,document.getElementById('lngt1').value)">Get Patient's location</button></td>
+	</tr>
+	<tr>
+		<td>patient 2</td>
+		<td><input type="text" id="lati2"/></td>
+		<td><input type="text" id="lngt2"/></td>
+		<td><button type="button" onclick="showPatientLocation(document.getElementById('lati2').value,document.getElementById('lngt2').value)">Get Patient's location</button></td>
+	</tr>
+	<tr>
+		<td>patient 3</td>
+		<td><input type="text" id="lati3"/></td>
+		<td><input type="text" id="lngt3"/></td>
+		<td><button type="button" onclick="showPatientLocation(document.getElementById('lati3').value,document.getElementById('lngt3').value)">Get Patient's location</button></td>
+	</tr>
+	<tr>
+		<td>patient 4</td>
+		<td><input type="text" id="lati2"/></td>
+		<td><input type="text" id="lngt2"/></td>
+		<td><button type="button" onclick="showPatientLocation(document.getElementById('lati4').value,document.getElementById('lngt4').value)">Get Patient's location</button></td>
+	</tr>
+</table>
+
+</body>
+</html>
